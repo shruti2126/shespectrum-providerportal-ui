@@ -1,3 +1,5 @@
+# shespectrum-providerportal-ui
+Admin Dashboard for the purpose of allowing providers register on the platform and upload all required verification documents and information
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
