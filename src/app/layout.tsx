@@ -32,10 +32,10 @@ export default function RootLayout({
       >
         <Navbar />
         <div className="flex">
-          <div className="h-[100vh] hidden md:block">
+          <div className="h-screen sticky top-0 hidden md:block">
             <Sidebar />
           </div>
-          <div className="w-full p-5 md:max-w-[1140px]">{children}</div>
+          <div className="p-5 overflow-auto">{children}</div>
         </div>
       </body>
     </html>
