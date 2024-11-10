@@ -14,7 +14,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import data from "../../../data/analytics";
+import data from "../../data/analytics";
 const AnalyticsChart = () => {
   return (
     <Card>
