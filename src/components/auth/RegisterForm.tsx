@@ -22,6 +22,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   firstname: z.string().min(3, { message: "First name is required" }),
@@ -35,9 +36,9 @@ const formSchema = z.object({
     .min(6, { message: "Password must be at least 6 characters" }),
   service: z.string().min(1, { message: "Service is required" }),
   experienceInYears: z
-    .number()
-    .positive({ message: "Experience must be a positive number" })
-    .optional(),
+    .string()
+    .transform((val) => parseInt(val, 10))
+    .refine((val) => !isNaN(val), { message: "Experience must be a number" }),
   calendarType: z.enum(["Calendly", "Google", "Outlook", "Manual"], {
     required_error: "Calendar type is required",
   }),
@@ -48,7 +49,7 @@ const formSchema = z.object({
 
 const RegisterForm = () => {
   const { toast } = useToast();
-
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -77,6 +78,7 @@ const RegisterForm = () => {
   }, [selectedCalendarType]);
 
   function handleSubmit(data: z.infer<typeof formSchema>) {
+    router.push("/");
     toast({
       title: "Registered successfully",
     });
@@ -84,7 +86,7 @@ const RegisterForm = () => {
   }
 
   return (
-    <Card>
+    <Card className="w-full h-[80vh]">
       <CardHeader>
         <CardTitle>Register</CardTitle>
         <CardDescription>Fill in the form below to register</CardDescription>

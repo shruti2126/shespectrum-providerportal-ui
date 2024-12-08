@@ -19,7 +19,6 @@ const Navbar = () => {
       <Link href="/">
         <Image src={logo} alt="SheSpectrum" width={40} />
       </Link>
-
       <div className="flex items-center">
         <ModeToggle />
         <DropdownMenu>

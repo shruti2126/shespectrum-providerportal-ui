@@ -50,7 +50,7 @@ const formSchema = z.object({
 
 const LoginForm = () => {
   const { toast } = useToast();
-
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -59,6 +59,7 @@ const LoginForm = () => {
     },
   });
   function handleSubmit(data: z.infer<typeof formSchema>) {
+    router.push("/");
     toast({
       title: "Logged in successfully",
     });
@@ -66,7 +67,7 @@ const LoginForm = () => {
   }
 
   return (
-    <Card>
+    <Card className="md:w-[400px]">
       <CardHeader>
         <CardTitle>Login</CardTitle>
         <CardDescription>
@@ -124,7 +125,7 @@ const LoginForm = () => {
               type="submit"
               className="w-full dark:bg-slate-700 dark:hover:bg-slate-800 dark:text-white"
             >
-              Login
+              Sign In
             </Button>
           </form>
         </Form>
