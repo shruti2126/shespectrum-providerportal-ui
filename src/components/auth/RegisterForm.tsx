@@ -23,10 +23,10 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 const formSchema = z.object({
-  firstname: z.string().min(3, { message: "First name is required" }),
-  lastname: z.string().min(3, { message: "Last name is required" }),
+  username: z.string().min(3, { message: "Username is required" }),
   mobileNumber: z
     .string()
     .regex(/^\d{10}$/, { message: "Mobile number must be 10 digits" }),
@@ -53,8 +53,7 @@ const RegisterForm = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      firstname: "",
-      lastname: "",
+      username: "",
       mobileNumber: "",
       email: "",
       password: "",
@@ -77,16 +76,23 @@ const RegisterForm = () => {
     }
   }, [selectedCalendarType]);
 
-  function handleSubmit(data: z.infer<typeof formSchema>) {
-    router.push("/");
-    toast({
-      title: "Registered successfully",
-    });
-    console.log(data);
+  async function handleSubmit(data: z.infer<typeof formSchema>) {
+    console.log("Submitted new provider data => ", data);
+    axios
+      .post("http://localhost:5000/api/providers", data)
+      .then((res) => {
+        localStorage.setItem("provider", res.data);
+        router.push("/onboarding/contact-info");
+        toast({
+          title: "Registered successfully",
+        });
+        console.log(res);
+      })
+      .catch((err) => console.log(err));
   }
 
   return (
-    <Card className="w-full h-[80vh]">
+    <Card className="w-full h-[80%]">
       <CardHeader>
         <CardTitle>Register</CardTitle>
         <CardDescription>Fill in the form below to register</CardDescription>
@@ -99,19 +105,22 @@ const RegisterForm = () => {
           >
             <FormField
               control={form.control}
-              name="firstname"
+              name="username"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>First Name</FormLabel>
+                  <FormLabel>Username</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter your first name" {...field} />
+                    <Input
+                      placeholder="Enter your Username, Dr. Name"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
 
-            <FormField
+            {/* <FormField
               control={form.control}
               name="lastname"
               render={({ field }) => (
@@ -123,7 +132,7 @@ const RegisterForm = () => {
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
 
             <FormField
               control={form.control}

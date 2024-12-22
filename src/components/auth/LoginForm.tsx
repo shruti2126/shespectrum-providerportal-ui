@@ -27,6 +27,7 @@ import React, { Usable } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
+import axios from "axios";
 
 const formSchema = z.object({
   email: z
@@ -58,11 +59,19 @@ const LoginForm = () => {
       password: "",
     },
   });
-  function handleSubmit(data: z.infer<typeof formSchema>) {
-    router.push("/");
-    toast({
-      title: "Logged in successfully",
-    });
+  async function handleSubmit(data: z.infer<typeof formSchema>) {
+    axios
+      .post("http://localhost:5000/api/providers/login", data)
+      .then((res) => {
+        console.log("res => ", res.data);
+        localStorage.setItem("provider", JSON.stringify(res.data) || "{}");
+        router.push("/dashboard");
+        toast({
+          title: "Logged in successfully",
+        });
+      })
+      .catch((err) => console.log(err));
+
     console.log(data);
   }
 

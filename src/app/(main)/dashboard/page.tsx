@@ -1,11 +1,25 @@
+"use client";
+
 import AnalyticsChart from "@/components/dashboard/AnalyticsChart";
 import DashboardCard from "@/components/dashboard/DashboardCard";
 import PostsTable from "@/components/posts/PostsTable";
+import { Button } from "@/components/ui/button";
 import { Folder, MessageCircle, Newspaper, User } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
   return (
     <>
+      <div className="flex align-center justify-center m-3">
+        <Button
+          onClick={() => {
+            router.push("/onboarding/contact-info");
+          }}
+        >
+          Provider Onboarding
+        </Button>
+      </div>
       <div className="flex flex-col md:flex-row flex-wrap justify-between sm:justify-center gap-5 mb-5">
         <DashboardCard
           title="Posts"

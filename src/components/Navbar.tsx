@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import logo from "../../public/assets/logo.png";
@@ -41,7 +42,12 @@ const Navbar = () => {
             </DropdownMenuItem>
             <DropdownMenuItem>
               <LogOut />
-              <Link href="/auth">Logout</Link>
+              <Link
+                href="/auth"
+                onClick={() => localStorage.removeItem("provider")}
+              >
+                Logout
+              </Link>
             </DropdownMenuItem>
             <DropdownMenuItem>
               <CreditCard />
