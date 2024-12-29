@@ -4,6 +4,7 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { ModeToggle } from "@/components/ModeToggle";
+import { ProviderContextProvider } from "../context/providerContext";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -31,15 +32,17 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          enableSystem={true}
-          storageKey="dashboard-theme"
-        >
-          {children}
-          <Toaster />
-        </ThemeProvider>
+        <ProviderContextProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="light"
+            enableSystem={true}
+            storageKey="dashboard-theme"
+          >
+            {children}
+            <Toaster />
+          </ThemeProvider>
+        </ProviderContextProvider>
       </body>
     </html>
   );

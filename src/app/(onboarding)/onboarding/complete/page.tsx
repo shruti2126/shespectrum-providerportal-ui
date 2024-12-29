@@ -5,16 +5,16 @@ import React, { useEffect, useState } from "react";
 
 const WelcomeOnboard = () => {
   const router = useRouter();
-  const [name, setName] = useState("Dr. John Doe");
+  const [name, setName] = useState("Dr. first last");
+  const provider = JSON.parse(localStorage.getItem("provider")!);
   useEffect(() => {
-    const storedName = localStorage.getItem("name");
-    if (storedName) {
-      setName(storedName);
+    if (provider) {
+      setName(provider.username);
     }
   });
   return (
     <div className="flex flex-col justify-center items-center text-3xl font-bold">
-      Welcome Onboard {name}
+      Welcome Onboard {name} !
       <div>
         <Button
           className="ml-2 bg-emerald-500 text-white hover:bg-emerald-600 mt-10"

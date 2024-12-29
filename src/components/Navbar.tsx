@@ -17,7 +17,7 @@ import { ModeToggle } from "./ModeToggle";
 const Navbar = () => {
   return (
     <div className="bg-primary dark:bg-slate-700 text-white py-2 px-5 flex justify-between">
-      <Link href="/">
+      <Link href="/dashboard">
         <Image src={logo} alt="SheSpectrum" width={40} />
       </Link>
       <div className="flex items-center">
@@ -44,7 +44,7 @@ const Navbar = () => {
               <LogOut />
               <Link
                 href="/auth"
-                onClick={() => localStorage.removeItem("provider")}
+                onClick={() => localStorage.removeItem("providerid")}
               >
                 Logout
               </Link>

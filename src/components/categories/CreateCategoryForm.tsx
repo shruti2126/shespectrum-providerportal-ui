@@ -21,50 +21,39 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import posts from "@/data/posts";
-import { Post } from "@/types/posts";
-import React, { Usable } from "react";
+
+import React from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import CategoryPage from "../../app/(main)/categories/page";
 
 const formSchema = z.object({
-  email: z
-    .string()
-    .min(1, {
-      message: "Email is required",
-    })
-    .email({
-      message: "Please enter a valid email address",
-    }),
-  password: z.string().min(1, {
-    message: "Password is required",
+  categoryTitle: z.string().min(1, {
+    message: "category title is required",
+  }),
+  categoryDescription: z.string().min(1, {
+    message: "category description is required",
   }),
 });
 
-/**
- * LoginForm component
- *
- * This component renders a login form and handles the form submission
- */
-
-const LoginForm = () => {
+const CreateCategoryForm = () => {
   const { toast } = useToast();
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      categoryTitle: "",
+      categoryDescription: "",
     },
   });
   async function handleSubmit(data: z.infer<typeof formSchema>) {
     axios
       .post("http://localhost:5000/api/providers/login", data)
       .then((res) => {
-        let provider = res.data;
-        localStorage.setItem("providerid", provider.id);
+        console.log("res => ", res.data);
+        localStorage.setItem("provider", JSON.stringify(res.data) || "{}");
         router.push("/dashboard");
         toast({
           title: "Logged in successfully",
@@ -78,10 +67,8 @@ const LoginForm = () => {
   return (
     <Card className="md:w-[400px]">
       <CardHeader>
-        <CardTitle>Login</CardTitle>
-        <CardDescription>
-          Log into your account with your credentials
-        </CardDescription>
+        <CardTitle>Create Category</CardTitle>
+        <CardDescription>Create a new category for your posts</CardDescription>
       </CardHeader>
       <CardContent className="space-y-2">
         {" "}
@@ -92,15 +79,15 @@ const LoginForm = () => {
           >
             <FormField
               control={form.control}
-              name="email"
+              name="categoryTitle"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-white">
-                    Email
+                    Category Title
                   </FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Enter your email"
+                      placeholder="Enter the new category title"
                       {...field}
                       className=" bg-slate-200 border-0 text-black focus-visible:ring-0"
                     />
@@ -111,16 +98,15 @@ const LoginForm = () => {
             />
             <FormField
               control={form.control}
-              name="password"
+              name="categoryDescription"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="uppercase text-xs font-bold text-zinc-500">
-                    Password
+                    Category Description
                   </FormLabel>
                   <FormControl>
                     <Input
-                      type="password"
-                      placeholder="Enter your password"
+                      placeholder="Enter the new category description"
                       {...field}
                       className="bg-slate-200 border-0 text-black focus-visible:ring-0"
                     />
@@ -134,7 +120,7 @@ const LoginForm = () => {
               type="submit"
               className="w-full dark:bg-slate-700 dark:hover:bg-slate-800 dark:text-white"
             >
-              Sign In
+              Create
             </Button>
           </form>
         </Form>
@@ -143,4 +129,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default CreateCategoryForm;

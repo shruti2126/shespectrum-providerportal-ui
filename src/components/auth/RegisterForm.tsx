@@ -24,6 +24,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { useProviderContext } from "@/context/providerContext";
 
 const formSchema = z.object({
   username: z.string().min(3, { message: "Username is required" }),
@@ -50,6 +51,8 @@ const formSchema = z.object({
 const RegisterForm = () => {
   const { toast } = useToast();
   const router = useRouter();
+  const {dispatch} = useProviderContext();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -78,17 +81,24 @@ const RegisterForm = () => {
 
   async function handleSubmit(data: z.infer<typeof formSchema>) {
     console.log("Submitted new provider data => ", data);
-    axios
-      .post("http://localhost:5000/api/providers", data)
-      .then((res) => {
-        localStorage.setItem("provider", res.data);
-        router.push("/onboarding/contact-info");
-        toast({
-          title: "Registered successfully",
-        });
-        console.log(res);
-      })
-      .catch((err) => console.log(err));
+    try{
+      axios
+        .post("http://localhost:5000/api/providers", data)
+        .then((res) => {
+          let providerid = JSON.parse(res.data);
+          dispatch({type: "SET_PROVIDER_DETAILS", payload: res.data}) //save provider details in context
+          localStorage.setItem("providerid", providerid.id); //save only provider id in localstorage
+          router.push("/welcome-page");
+          toast({
+            title: "Registered successfully",
+          });
+          console.log(res);
+        })
+        .catch((err) => console.log(err));
+    } catch(error){
+
+    }
+    
   }
 
   return (

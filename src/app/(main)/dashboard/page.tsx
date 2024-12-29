@@ -14,7 +14,7 @@ export default function Home() {
       <div className="flex align-center justify-center m-3">
         <Button
           onClick={() => {
-            router.push("/onboarding/contact-info");
+            router.push("/welcome-page");
           }}
         >
           Provider Onboarding
