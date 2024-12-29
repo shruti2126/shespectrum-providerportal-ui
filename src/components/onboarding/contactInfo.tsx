@@ -23,6 +23,7 @@ const contactInfo = () => {
   
   
   const router = useRouter();
+ 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 px-4">
       <div className="max-w-md w-full bg-white rounded-lg shadow-md p-6">
@@ -74,13 +75,6 @@ const contactInfo = () => {
 
           {/* Address (Editable) */}
           <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Address
-            </label>
-            {/* <textarea
-              placeholder="Enter your address"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
-            ></textarea> */}
             <AddressForm />
           </div>
 

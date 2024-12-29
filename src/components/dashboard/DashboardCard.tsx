@@ -5,11 +5,13 @@ interface DashboardCardProps {
   title: string;
   count: number;
   icon: React.ReactNode;
+  onClick?: () => void;
 }
-const DashboardCard = ({ title, count, icon }: DashboardCardProps) => {
+const DashboardCard = ({ title, count, icon, onClick }: DashboardCardProps) => {
+  
   return (
-    <Card className="bg-slate-100 dark:bg-slate-800 p-4 pb-0">
-      <CardContent>
+    <Card className="bg-slate-100 dark:bg-slate-800 p-4 pb-0 hover:cursor-pointer hover:scale-105 translate-y-2 ease-out-quart">
+      <CardContent onClick={onClick}>
         <h3 className="text-3xl text-center mb-4 font-bold text-slate-500 dark:text-slate-200">
           {title}
         </h3>

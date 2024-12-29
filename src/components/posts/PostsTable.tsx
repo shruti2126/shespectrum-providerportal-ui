@@ -1,3 +1,4 @@
+"use client";
 import {
   Table,
   TableBody,
@@ -10,12 +11,16 @@ import {
 import Link from "next/link";
 import posts from "../../data/posts";
 import { Post } from "../../types/posts";
+import { Button } from "../ui/button";
+import { Icon, PlusCircle } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface PostTableProps {
   limit?: number;
   title?: string;
 }
 const PostsTable = ({ limit, title }: PostTableProps) => {
+  const router = useRouter();
   const sortedPosts: Post[] = [...posts].sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );
@@ -23,13 +28,28 @@ const PostsTable = ({ limit, title }: PostTableProps) => {
   //Filter posts to limit
   const filteredPosts = limit ? sortedPosts.slice(0, limit) : sortedPosts;
 
+  const handleNewPost = () => {
+    router.push("/posts/new");
+  };
   return (
     <div className="mt-10">
-      <h3 className="text-2xl mb-4 font-semibold">{title ? title : "Posts"}</h3>
+      <div className="flex items-center justify-between place-items-center">
+        <h3 className="text-2xl mb-4 font-semibold">
+          {title ? title : "Posts"}
+        </h3>
+        <Button
+          onClick={handleNewPost}
+          className="bg-teal-500 hover:bg-teal-700 h-9 text-white font-bold py-2 px-4 rounded"
+        >
+          <PlusCircle className="h-10 w-10" />
+          Add New Post
+        </Button>
+      </div>
+
       <Table>
         <TableCaption>A list of recent posts</TableCaption>
         <TableHeader>
-          <TableRow>
+          <TableRow className="pt-4">
             <TableHead>Title</TableHead>
             <TableHead className="hidden md:table-cell">Author</TableHead>
             <TableHead className="hidden md:table-cell text-right">

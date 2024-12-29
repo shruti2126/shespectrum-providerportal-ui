@@ -25,16 +25,19 @@ export default function Home() {
           title="Posts"
           count={100}
           icon={<Newspaper className="text-slate-500" size={62} />}
+          onClick={() => router.push("/posts")}
         />
         <DashboardCard
           title="Categories"
           count={12}
           icon={<Folder className="text-slate-500" size={62} />}
+          onClick={() => router.push("/categories")}
         />
         <DashboardCard
           title="Users"
           count={750}
           icon={<User className="text-slate-500" size={62} />}
+          onClick={() => router.push("/posts")}
         />
         <DashboardCard
           title="Comments"
